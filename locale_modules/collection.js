@@ -4,6 +4,8 @@ const basePath = __dirname + '/../collections/';
 
 /**
  * Making folder collection based on /collections/$1 folder
+ * @param {String} folderPath 
+ * @returns object
  */
 const makeFolder = (folderPath) => {
     const path = basePath + folderPath;
@@ -24,6 +26,8 @@ const makeFolder = (folderPath) => {
 
 /**
  * Making file collection based path on /collections/$1 folder
+ * @param {String} filePath automatic add json at the end of file
+ * @returns object
  */
 const makeFile = (filePath) => {
     const path = basePath + filePath + '.json';
@@ -45,9 +49,9 @@ const makeFile = (filePath) => {
 /**
  * Collections Maker
  * 
- * @param folderPath folder target
- * @param filePath file target
- * @return JSON
+ * @param {String} folderPath folder target
+ * @param {String} filePath file target
+ * @return Object
  */
 const make = (folderPath, filePath) => {
     const makeFolderStatus = makeFolder(folderPath);
@@ -60,17 +64,32 @@ const make = (folderPath, filePath) => {
 }
 
 /**
- * collection fetch all based on /collections/$1
+ * Read Collection and get as Object | path based on /collections/$1
+ * @param {*} collectionPath 
+ * @param {*} encoding 
+ * @returns Object
  */
-const fetchAll = (collectionPath) => {
-    const path = basePath + collectionPath;
+const getCollection = (collectionPath, encoding = 'utf-8') => {
+    return JSON.parse(fs.readFileSync(basePath + collectionPath, {
+        encoding
+    }));
+}
 
-    return JSON.parse(fs.readFileSync(path));
+/**
+ * Iserting data to collection
+ * @param {String} collectionPath 
+ * @param {Object} newData 
+ */
+const insertData = (collectionPath, newData) => {
+    let objectData = getCollection(collectionPath);
+    objectData.push(newData);
+    fs.writeFileSync(basePath + collectionPath, JSON.stringify(objectData));
 }
 
 module.exports = {
     makeFolder,
     makeFile,
     make,
-    fetchAll,
+    getCollection,
+    insertData,
 }
