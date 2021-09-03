@@ -35,25 +35,19 @@ app.get('/mahasiswa/add', (req, res) => {
 });
 
 app.get('/mahasiswa/:email/detail', (req, res) => {
-    const email = req.params.email;
-    let mahasiswa = collection.getCollection('mahasiswa/data');
-
-    mahasiswa.forEach(mhs => {
-        if (mhs.email == email)
-            mahasiswa = mhs;
-    });
 
     res.render('mahasiswa/detail', {
         title: 'Mahasiswa Detail',
-        mahasiswa,
+        mahasiswa: mhs_module.findDataByEmail('mahasiswa/data', req.params.email),
     });
 });
 
 app.get('/mahasiswa/:email/edit', (req, res) => {
-    const paramID = req.params.id;
+    const email = req.params.email;
 
     res.render('mahasiswa/edit', {
-        title: 'Edit Mahasiswa Data'
+        title: 'Edit Mahasiswa Data',
+        mahasiswa: mhs_module.findDataByEmail('mahasiswa/data', email),
     });
 });
 
@@ -65,7 +59,42 @@ app.post('/mahasiswa/verify/:type', (req, res) => {
             collection.insertData('mahasiswa/data', req.body);
             res.redirect('/mahasiswa');
             break;
+        case 'update':
+            const updateMahasiswa = () => {
+                let body = req.body;
+                let temp = [];
+                mahasiswa = collection.getCollection('mahasiswa/data');
+                mahasiswa.forEach((mhs) => {
+                    if (mhs.email == body.email) {
+                        mhs.name = body.name
+                        mhs.email = body.email
+                    }
+                    temp.push(mhs);
+                });
 
+                collection.clearAndSaveData('mahasiswa/data', mahasiswa);
+                res.redirect('/mahasiswa');
+            }
+
+            updateMahasiswa();
+            break;
+
+        case 'delete':
+            const deleteMahasiswa = () => {
+                let email = req.body.email;
+                let temp = [];
+                mahasiswa = collection.getCollection('mahasiswa/data');
+                mahasiswa.forEach((mhs) => {
+                    if (mhs.email != email) {
+                        temp.push(mhs);
+                    }
+                })
+
+                collection.clearAndSaveData('mahasiswa/data', temp);
+                res.redirect('/mahasiswa');
+            }
+            deleteMahasiswa();
+            break;
         default:
             break;
     }
@@ -74,6 +103,14 @@ app.post('/mahasiswa/verify/:type', (req, res) => {
 
 app.use(express.static(__dirname + '/node_modules/bootstrap-icons/font'));
 app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
+
+// page not found handler
+app.use('/', (req, res) => {
+    res.status(404);
+    res.render('errors/404', {
+        title: 'Page not found!'
+    });
+});
 
 // start server listener
 app.listen(appConfig.serverPort, () => {
