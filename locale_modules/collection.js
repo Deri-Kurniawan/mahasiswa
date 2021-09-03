@@ -65,12 +65,12 @@ const make = (folderPath, filePath) => {
 
 /**
  * Read Collection and get as Object | path based on /collections/$1
- * @param {*} collectionPath 
+ * @param {*} collectionPath path only
  * @param {*} encoding 
  * @returns Object
  */
 const getCollection = (collectionPath, encoding = 'utf-8') => {
-    return JSON.parse(fs.readFileSync(basePath + collectionPath, {
+    return JSON.parse(fs.readFileSync(basePath + collectionPath + '.json', {
         encoding
     }));
 }
@@ -83,7 +83,7 @@ const getCollection = (collectionPath, encoding = 'utf-8') => {
 const insertData = (collectionPath, newData) => {
     let objectData = getCollection(collectionPath);
     objectData.push(newData);
-    fs.writeFileSync(basePath + collectionPath, JSON.stringify(objectData));
+    fs.writeFileSync(basePath + collectionPath + '.json', JSON.stringify(objectData));
 }
 
 module.exports = {
