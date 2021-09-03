@@ -1,4 +1,19 @@
 <%- include('../layouts/header') %>
 <%- include('../layouts/utils/navbar') %>
-<h1 class="mt-3 text-center">Detail Mahasiswa</h1>
+<div class="container mt-3">
+    <div class="card text-center">
+        <div class="card-header">
+            About <%= mahasiswa.name %>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title"><%= mahasiswa.name %></h5>
+            <p class="card-text"><%= mahasiswa.email %> </p>
+            <a href="/mahasiswa" class="btn btn-primary">Go Back</a>
+        </div>
+        <div class="card-footer text-muted">
+            2 days ago
+        </div>
+    </div>
+</div>
+
 <%- include('../layouts/footer') %>
