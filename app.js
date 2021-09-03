@@ -10,6 +10,7 @@ const appConfig = {
 
 // set middleware
 app.use(express.static(__dirname + '/public'));
+app.use(express.urlencoded());
 app.set('view engine', 'ejs');
 
 // set page(s)
@@ -46,6 +47,20 @@ app.get('/mahasiswa/:id/edit', (req, res) => {
     res.render('mahasiswa/edit', {
         title: 'Edit Mahasiswa Data'
     });
+});
+
+app.post('/mahasiswa/verify/:type', (req, res) => {
+    const type = req.params.type;
+
+    switch (type) {
+        case 'save':
+            collection.insertData('mahasiswa/data.json', req.body);
+            break;
+
+        default:
+            break;
+    }
+    res.end();
 });
 
 app.use(express.static(__dirname + '/node_modules/bootstrap-icons/font'));
