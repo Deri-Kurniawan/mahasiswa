@@ -11,8 +11,18 @@
                     <a class="nav-link <%= (title.toLowerCase() === 'home') ? 'active' : '' %> " href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= (title.toLowerCase() === 'mahasiswa') ? 'active' : '' %> "
-                        href="/mahasiswa">Mahasiswa</a>
+                    <a class="nav-link <%= 
+                        (
+                        title.toLowerCase() === 'mahasiswa' 
+                        ||
+                        title.toLowerCase() === 'add mahasiswa data'
+                        ||
+                        title.toLowerCase() === 'mahasiswa detail'
+                        ||
+                        title.toLowerCase() === 'edit mahasiswa data') 
+                        ? 'active' 
+                        : '' 
+                        %> " href="/mahasiswa">Mahasiswa</a>
                 </li>
             </ul>
             <form class="d-flex">
