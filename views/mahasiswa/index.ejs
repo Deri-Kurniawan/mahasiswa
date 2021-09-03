@@ -15,19 +15,30 @@
             </tr>
         </thead>
         <tbody>
+            <% if(mahasiswa.length > 0){ %>
+            <% number=1;  %>
+            <% mahasiswa.forEach((mhs) => { %>
             <tr>
-                <td>1</td>
-                <td>Deri Kurniawan</td>
-                <td>deri.netuchi@gmail.com</td>
+                <td><%= number++ %></td>
+                <td><%= mhs.name %></td>
+                <td><%= mhs.email %></td>
                 <td>
                     <a class="badge text-light bg-primary text-decoration-none"
-                        href="/mahasiswa/Deri-kurniawan/detail">Detail</a>
+                        href="/mahasiswa/<%= mhs.email %>/detail">Detail</a>
                     <a class="badge text-light bg-warning text-decoration-none"
-                        href="/mahasiswa/Deri-kurniawan/edit">Edit</a>
+                        href="/mahasiswa/<%= mhs.email %>/edit">Edit</a>
                     <a class="badge text-light bg-danger text-decoration-none" href="/mahasiswa/Deri-kurniawan/delete"
                         onclick="return confirm('Are you sure?')">Delete</a>
                 </td>
             </tr>
+            <% }); %>
+            <% } else { %>
+            <tr>
+                <td colspan="4">
+                    <div class="alert alert-danger text-center">No Data</div>
+                </td>
+            </tr>
+            <% } %>
         </tbody>
     </table>
 </div>
