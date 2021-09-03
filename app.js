@@ -1,5 +1,5 @@
 // module lists
-const mahasiswa = require('./locale_modules/mahasiswa');
+const mhs_module = require('./locale_modules/mahasiswa');
 const collection = require('./locale_modules/collection');
 const express = require('express');
 const app = express();
@@ -22,7 +22,8 @@ app.get('/', (req, res) => {
 
 app.get('/mahasiswa', (req, res) => {
     res.render('mahasiswa/index', {
-        title: 'Mahasiswa'
+        title: 'Mahasiswa',
+        mahasiswa: collection.getCollection('mahasiswa/data'),
     });
 });
 
@@ -33,15 +34,22 @@ app.get('/mahasiswa/add', (req, res) => {
     });
 });
 
-app.get('/mahasiswa/:id/detail', (req, res) => {
-    const paramID = req.params.id;
+app.get('/mahasiswa/:email/detail', (req, res) => {
+    const email = req.params.email;
+    let mahasiswa = collection.getCollection('mahasiswa/data');
+
+    mahasiswa.forEach(mhs => {
+        if (mhs.email == email)
+            mahasiswa = mhs;
+    });
 
     res.render('mahasiswa/detail', {
-        title: 'Mahasiswa Detail'
+        title: 'Mahasiswa Detail',
+        mahasiswa,
     });
 });
 
-app.get('/mahasiswa/:id/edit', (req, res) => {
+app.get('/mahasiswa/:email/edit', (req, res) => {
     const paramID = req.params.id;
 
     res.render('mahasiswa/edit', {
@@ -54,7 +62,8 @@ app.post('/mahasiswa/verify/:type', (req, res) => {
 
     switch (type) {
         case 'save':
-            collection.insertData('mahasiswa/data.json', req.body);
+            collection.insertData('mahasiswa/data', req.body);
+            res.redirect('/mahasiswa');
             break;
 
         default:
