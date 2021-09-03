@@ -1,10 +1,35 @@
 const collection = require('./collection');
-const fs = require('fs');
 
-const fetchAll = () => {
-    return JSON.parse(fs.readFileSync('/mahasiswa/data.json'));
+/**
+ * 
+ * @param {*} collectionPath 
+ * @param {*} email 
+ * @returns 
+ */
+const findDataByEmail = (collectionPath, email) => {
+    let mahasiswa = collection.getCollection(collectionPath);
+
+    mahasiswa.find(mhs => {
+        if (mhs.email == email)
+            mahasiswa = mhs;
+    });
+
+    return mahasiswa;
+}
+
+const removeDataByEmail = (collectionPath, email) => {
+    let mahasiswa = collection.getCollection(collectionPath);
+
+    mahasiswa.find(mhs => {
+        if (mhs.email != email)
+            mahasiswa = mhs;
+
+        return mahasiswa;
+    });
+
 }
 
 module.exports = {
-    fetchAll,
+    findDataByEmail,
+    removeDataByEmail,
 }
