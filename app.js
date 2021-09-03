@@ -8,15 +8,24 @@ const appConfig = {
 
 // set middleware
 app.use(express.static('public'));
-app.use(express.urlencoded());
 app.set('view engine', 'ejs');
 
 // set page(s)
 app.get('/', (req, res) => {
     res.render('index', {
-        title: "Home Page"
+        title: 'Home'
     });
 });
+
+app.get('/mahasiswa', (req, res) => {
+    res.render('mhs/index', {
+        title: 'Mahasiswa'
+    });
+});
+
+//middleware
+app.use(express.static(__dirname + '/node_modules/bootstrap-icons/font'));
+app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
 
 // start server listener
 app.listen(appConfig.serverPort, () => {
