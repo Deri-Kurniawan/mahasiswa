@@ -5,7 +5,7 @@
 <div class="container">
     <a class="btn btn-outline-primary my-3" href="/mahasiswa/add"><i class="bi bi-plus-circle"></i> Add Data
         Mahasiswa</a>
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover text-center">
         <thead>
             <tr>
                 <th>No</th>
@@ -23,12 +23,13 @@
                 <td><%= mhs.name %></td>
                 <td><%= mhs.email %></td>
                 <td>
-                    <a class="badge text-light bg-primary text-decoration-none"
-                        href="/mahasiswa/<%= mhs.email %>/detail">Detail</a>
-                    <a class="badge text-light bg-warning text-decoration-none"
-                        href="/mahasiswa/<%= mhs.email %>/edit">Edit</a>
-                    <a class="badge text-light bg-danger text-decoration-none" href="/mahasiswa/Deri-kurniawan/delete"
-                        onclick="return confirm('Are you sure?')">Delete</a>
+                    <a class="m-1 btn btn-outline-primary" href="/mahasiswa/<%= mhs.email %>/detail">Detail</a>
+                    <a class="m-1 btn btn-outline-warning" href="/mahasiswa/<%= mhs.email %>/edit">Edit</a>
+                    <form action="/mahasiswa/verify/delete" method="POST">
+                        <input type="hidden" name="email" id="email" value="<%= mhs.email %>">
+                        <button class="m-1 btn btn-outline-danger"
+                            onclick="return confirm('Are you sure?')">Delete</button>
+                    </form>
                 </td>
             </tr>
             <% }); %>
