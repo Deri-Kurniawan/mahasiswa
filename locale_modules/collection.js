@@ -29,11 +29,11 @@ const makeFolder = (folderPath) => {
  * @param {String} filePath automatic add json at the end of file
  * @returns object
  */
-const makeFile = (filePath) => {
+const makeFile = (filePath, data = '[]') => {
     const path = basePath + filePath + '.json';
 
     if (!fs.existsSync(path)) {
-        fs.writeFileSync(path, '[]');
+        fs.writeFileSync(path, data);
         return {
             error: false,
             message: `Folder is successfuly created on path ${path}`,
@@ -86,10 +86,20 @@ const insertData = (collectionPath, newData) => {
     fs.writeFileSync(basePath + collectionPath + '.json', JSON.stringify(objectData));
 }
 
+/**
+ * Clear and Iserting data to collection
+ * @param {String} collectionPath 
+ * @param {Object} newData
+ */
+const clearAndSaveData = (collectionPath, newData) => {
+    fs.writeFileSync(basePath + collectionPath + '.json', JSON.stringify(newData));
+}
+
 module.exports = {
     makeFolder,
     makeFile,
     make,
     getCollection,
     insertData,
+    clearAndSaveData,
 }
